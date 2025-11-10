@@ -8,7 +8,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import morgan from 'morgan';
 
-const FRONTEND_URL = process.env.FRONTEND_URL;
+// const FRONTEND_URL = process.env.FRONTEND_URL;
 
 dotenv.config();
 
@@ -16,7 +16,23 @@ const app = express();//acá estoy creando el servidor; encargado de recibir las
 const port = process.env.PORT || 3000; 
 app.use(morgan("dev"));
 
-app.use(cors({ origin: FRONTEND_URL, credentials: true })); // Configurar CORS
+const allowedOrigins = [
+  'https://ecommercemarketsur-front.vercel.app',
+  'https://ecommercemarketsur-front-git-main-gfreire96s-projects.vercel.app',
+  'https://ecommercemarketsur-front-px9dmou4m-gfreire96s-projects.vercel.app'
+];
+
+app.use(cors({
+  origin: function(origin, callback) {
+    if (!origin) return callback(null, true); // postman/curl
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 
 app.use(express.json()); //middleware que permite que el servidor entienda JSON en las peticiones
 app.use(cookieParser());
