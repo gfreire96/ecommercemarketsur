@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import morgan from 'morgan';
 
+const FRONTEND_URL = process.env.FRONTEND_URL;
 
 dotenv.config();
 
@@ -15,7 +16,7 @@ const app = express();//acá estoy creando el servidor; encargado de recibir las
 const port = process.env.PORT || 3000; 
 app.use(morgan("dev"));
 
-app.use(cors({ process.env.FRONTEND_URL, credentials: true })); // Configurar CORS
+app.use(cors({ origin: FRONTEND_URL, credentials: true })); // Configurar CORS
 
 app.use(express.json()); //middleware que permite que el servidor entienda JSON en las peticiones
 app.use(cookieParser());
