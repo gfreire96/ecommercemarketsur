@@ -15,7 +15,7 @@ const app = express();//acá estoy creando el servidor; encargado de recibir las
 const port = process.env.PORT || 3000; 
 app.use(morgan("dev"));
 
-app.use(cors({ origin: 'http://localhost:5173', credentials: true })); // Configurar CORS
+app.use(cors({ process.env.FRONTEND_URL, credentials: true })); // Configurar CORS
 
 app.use(express.json()); //middleware que permite que el servidor entienda JSON en las peticiones
 app.use(cookieParser());
