@@ -1,13 +1,16 @@
-import {Pool} from 'pg';
+import { Pool } from 'pg';
 import dotenv from 'dotenv';
 dotenv.config();
 
 export const pool = new Pool({
-    port: process.env.DB_PORT,
     host: process.env.DB_HOST,
+    port: Number(process.env.DB_PORT),  // convertir a número
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
+    ssl: {
+        rejectUnauthorized: false  // obligatorio en Railway
+    }
 });
 
 pool.on('connect', () => {
